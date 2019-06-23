@@ -1,3 +1,5 @@
+require "byebug"
+
 class DirectoryReader
   def initialize(path)
     path = "#{path}/**/*"
@@ -12,8 +14,11 @@ class DirectoryReader
 
   def todo_file_paths
     all_file_paths.select do |file|
-      data_as_string = File.read(file)
-      data_as_string.upcase.include? "TODO"
+      data_in_lines = File.readlines(file)
+      valid_lines = data_in_lines.select do |line|
+        line.start_with?('//') && line.include?('TODO:')
+      end
+      valid_lines.length.positive?
     end
   end
 end
