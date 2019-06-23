@@ -15,8 +15,14 @@ class DirectoryReader
   def todo_file_paths
     all_file_paths.select do |file|
       data_in_lines = File.readlines(file)
+      multi_line_comment = false
       valid_lines = data_in_lines.select do |line|
-        line.start_with?('//') && line.include?('TODO:')
+        multi_line_comment = !multi_line_comment if line.start_with?('/*', '*/')
+        if multi_line_comment
+          line.include?('TODO:')
+        else
+          line.start_with?('//') && line.include?('TODO:')
+        end
       end
       valid_lines.length.positive?
     end
