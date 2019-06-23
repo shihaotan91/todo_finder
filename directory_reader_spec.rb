@@ -9,7 +9,7 @@ class DirectoryReaderTest < Test::Unit::TestCase
   end
 
   def test_directory
-    path = "test_dir/**/*"
+    path = 'test_dir/**/*'
     all_files_and_dirs = Dir[path]
     assert_equal(all_files_and_dirs, @@directory_reader.directory)
   end
@@ -31,13 +31,15 @@ class DirectoryReaderTest < Test::Unit::TestCase
 
   def test_multi_line_comment
     assert_equal(true, @@directory_reader.multi_line_comment?('/*'))
-    assert_equal(true, @@directory_reader.multi_line_comment?('/*'))
+    assert_equal(true, @@directory_reader.multi_line_comment?('*/'))
     assert_equal(false, @@directory_reader.multi_line_comment?('-/-'))
   end
 
   def test_file_has_todo
     assert_equal(true, @@directory_reader.file_has_todo(true, 'TODO:'))
+    assert_equal(false, @@directory_reader.file_has_todo(true, 'DONTDO:'))
+
     assert_equal(true, @@directory_reader.file_has_todo(false, '// TODO:'))
-    assert_equal(false, @@directory_reader.file_has_todo(false, 'TODO:'))
+    assert_equal(false, @@directory_reader.file_has_todo(false, '// DONTDO:'))
   end
 end
