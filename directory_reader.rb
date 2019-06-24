@@ -30,15 +30,13 @@ class DirectoryReader
     file_paths.select do |file|
       data_in_lines = File.readlines(file)
       multi_line_comment = false
-      valid_lines = data_in_lines.select do |line|
+      data_in_lines.find do |line|
         multi_line_comment = !multi_line_comment if multi_line_comment?(line)
         line_has_todo(multi_line_comment, line)
       end
-
-      valid_lines.length.positive?
     end
   end
 end
 
-new_directory = DirectoryReader.new('test_dir')
-puts new_directory.todo_file_paths
+directory_reader = DirectoryReader.new('test_dir')
+puts directory_reader.todo_file_paths
