@@ -18,7 +18,7 @@ class DirectoryReader
     line.start_with?('/*', '*/')
   end
 
-  def file_has_todo(is_multi_line_comment, line)
+  def line_has_todo(is_multi_line_comment, line)
     if is_multi_line_comment
       line.include?('TODO:')
     else
@@ -32,7 +32,7 @@ class DirectoryReader
       multi_line_comment = false
       valid_lines = data_in_lines.select do |line|
         multi_line_comment = !multi_line_comment if multi_line_comment?(line)
-        file_has_todo(multi_line_comment, line)
+        line_has_todo(multi_line_comment, line)
       end
 
       valid_lines.length.positive?
