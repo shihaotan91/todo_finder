@@ -6,7 +6,7 @@ It's common to see `TODOs` in code. It's also common for `TODOs` to remain as to
 
 ## The Application
 
-This application takes in a directory and looks through all files in that directory for `TODOs` statements.
+This application takes in a directory as a param and looks through all files in that directory for `TODOs` statements.
 
 ## Design Considerations
 
@@ -17,6 +17,7 @@ This application takes in a directory and looks through all files in that direct
 To avoid that, I decided to only match the two most common syntax in commenting out code in modern programming languages. And that is
 
 `#` for Ruby, Python, Perl, etc...
+
 `//` for Javascript, Golang, Java, etc...
 
 Ruby and Javascript will be used as test examples in this application.
@@ -74,6 +75,7 @@ Example of a HTML file that will be shown in output
 This application in written in plain Ruby without any supporting libaries. So you only need to install Ruby language to run it.
 
 Step 1: [Download Brew](https://brew.sh/) (You can skip this if you already have brew)
+
 Step 2: Run `brew install ruby` in your terminal if you are on MAC. If not visit [HERE](https://www.ruby-lang.org/en/documentation/installation/) to see how to download Ruby for other systems.
 
 ## How to run it
@@ -88,8 +90,8 @@ Feel free to replace `test_dir` with any other valid directory
 
 ### Running the specs
 
-To run through all the unit tests, I've created a bin executable file for it.
+To run through all the unit tests, I've created a bin executable file for it
 
-Simply run `bin/run_specs`.
+Simply run `bin/run_specs`
 
 `test_dir` will be used as the default directory to test the specs
