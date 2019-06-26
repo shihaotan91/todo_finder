@@ -1,5 +1,5 @@
-todo = "TODO:"
+todo = 'TODO'
 
 def doThisThing
-  puts "TODO:"
+  puts 'TODO'
 end

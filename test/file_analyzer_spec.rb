@@ -35,7 +35,7 @@ class FileAnalyzerTest < Test::Unit::TestCase
 
   def test_line_has_todo?
     assert_equal(false, @@file_analyzer.line_has_todo?('blahblah'))
-    assert_equal(true, @@file_analyzer.line_has_todo?('TODO:'))
+    assert_equal(true, @@file_analyzer.line_has_todo?('TODO'))
   end
 
   def test_in_multi_line_comment?
@@ -51,29 +51,29 @@ class FileAnalyzerTest < Test::Unit::TestCase
   def test_line_has_commented_todo
     @@file_analyzer.current_file_type = '.js'
     @@file_analyzer.multi_line_comment = false
-    assert_equal(false, @@file_analyzer.line_has_commented_todo?('TODO:', '//'))
-    assert_equal(true, @@file_analyzer.line_has_commented_todo?('// TODO:', '//'))
+    assert_equal(false, @@file_analyzer.line_has_commented_todo?('TODO', '//'))
+    assert_equal(true, @@file_analyzer.line_has_commented_todo?('// TODO', '//'))
 
     @@file_analyzer.multi_line_comment = true
-    assert_equal(true, @@file_analyzer.line_has_commented_todo?('TODO:', '//'))
+    assert_equal(true, @@file_analyzer.line_has_commented_todo?('TODO', '//'))
 
     @@file_analyzer.current_file_type = '.rb'
-    assert_equal(false, @@file_analyzer.line_has_commented_todo?('TODO:', '#'))
-    assert_equal(true, @@file_analyzer.line_has_commented_todo?('# TODO:', '#'))
+    assert_equal(false, @@file_analyzer.line_has_commented_todo?('TODO', '#'))
+    assert_equal(true, @@file_analyzer.line_has_commented_todo?('# TODO', '#'))
   end
 
   def test_inspect_line
     @@file_analyzer.current_file_type = '.html'
-    assert_equal(true, @@file_analyzer.inspect_line('TODO:'))
+    assert_equal(true, @@file_analyzer.inspect_line('TODO'))
     assert_equal(false, @@file_analyzer.inspect_line('DONTDO:'))
 
     @@file_analyzer.current_file_type = '.js'
     @@file_analyzer.multi_line_comment = false
-    assert_equal(true, @@file_analyzer.inspect_line('// TODO:'))
+    assert_equal(true, @@file_analyzer.inspect_line('// TODO'))
     assert_equal(false, @@file_analyzer.inspect_line('// DONTDO:'))
 
     @@file_analyzer.current_file_type = '.rb'
-    assert_equal(true, @@file_analyzer.inspect_line('# TODO:'))
+    assert_equal(true, @@file_analyzer.inspect_line('# TODO'))
     assert_equal(false, @@file_analyzer.inspect_line('# DONTDO:'))
   end
 

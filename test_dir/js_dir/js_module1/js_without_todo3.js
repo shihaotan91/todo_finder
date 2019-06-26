@@ -1,4 +1,4 @@
 /* Multiline comment 
 */
 
-var test = "TODO:"
+var test = "TODO"
