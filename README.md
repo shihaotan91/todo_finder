@@ -8,7 +8,7 @@ It's common to see `TODOs` in code. It's also common for `TODOs` to remain as to
 
 This application takes in a directory and looks through all files in that directory for `TODOs` statements.
 
-## Application Considerations
+## Design Considerations
 
 ### Commented Code VS Uncommented Code
 
@@ -78,10 +78,18 @@ Step 2: Run `brew install ruby` in your terminal if you are on MAC. If not visit
 
 ## How to run it
 
+### Running the application
+
 To get a list of files with `TODOs` in them that are in `test_dir`
 
-Simply run `ruby directory_reader.rb`
+Simply run `ruby directory_reader.rb test_dir`
+
+Feel free to replace `test_dir` with any other valid directory
+
+### Running the specs
 
 To run through all the unit tests, I've created a bin executable file for it.
 
-Simply run `bin/run_specs`
+Simply run `bin/run_specs`.
+
+`test_dir` will be used as the default directory to test the specs

@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-cmd = "ruby ./spec/directory_reader_spec.rb; ruby ./spec/file_analyzer_spec.rb"
+cmd = "ruby ./spec/directory_reader_spec.rb test_dir; ruby ./spec/file_analyzer_spec.rb"
 system cmd

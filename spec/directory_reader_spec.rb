@@ -15,14 +15,14 @@ class DirectoryReaderTest < Test::Unit::TestCase
   def test_file_paths
     all_file_paths = Dir[@@test_directory].select do |path|
       File.file? path
-    end
-    assert_equal(all_file_paths, @@directory_reader.file_paths)
+    end.sort
+    assert_equal(all_file_paths, @@directory_reader.file_paths.sort)
   end
 
   def test_todo_file_paths
     todo_file_paths = Dir[@@test_directory].select do |path|
       File.file?(path) && path.include?('with_todo')
-    end
-    assert_equal(todo_file_paths, @@directory_reader.todo_file_paths)
+    end.sort
+    assert_equal(todo_file_paths, @@directory_reader.todo_file_paths.sort)
   end
 end

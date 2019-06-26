@@ -1,4 +1,4 @@
-require './file_analyzer'
+require_relative 'file_analyzer'
 
 class DirectoryReader
   attr_accessor :directory
@@ -22,5 +22,12 @@ class DirectoryReader
   end
 end
 
-directory_reader = DirectoryReader.new('test_dir')
+dir = ARGV[0]
+
+unless File.directory?(dir)
+  puts 'Invalid directory'
+  return
+end
+
+directory_reader = DirectoryReader.new(dir)
 puts directory_reader.todo_file_paths
