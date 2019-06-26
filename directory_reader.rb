@@ -1,12 +1,14 @@
 require "byebug"
 
+# NOTE: Responsible for reading a directory and
+# deciding files to analyze
 class DirectoryReader
   attr_reader :directory
 
   def initialize(dir)
     path = "#{dir}/**/*"
     @directory = Dir[path]
-    @comment_pattern_types = {
+    @comment_patterns = {
       '.js' => { 'single' => '//', 'multi' => ['/*', '*/'] },
       '.rb' => { 'single' => '#' }
     }
@@ -19,8 +21,13 @@ class DirectoryReader
   end
 
   def file_is_chosen_types
-    file_types = @comment_pattern_types.keys
+    file_types = @comment_patterns.keys
     file_types.include? @current_file_type
+  end
+
+  def close_multi_comment(line)
+    return unless @current_file_type == '.js'
+    @multi_line_comment = false if line.end_with?("*/\n")
   end
 
   def line_has_commented_todo?(line, comment_pattern)
@@ -33,7 +40,7 @@ class DirectoryReader
 
   def multi_line_comment?(line)
     return false unless @current_file_type == '.js'
-    multi_line_pattern = @comment_pattern_types['.js']['multi']
+    multi_line_pattern = @comment_patterns['.js']['multi']
     @multi_line_comment = !@multi_line_comment if line.start_with?(*multi_line_pattern)
 
     @multi_line_comment
@@ -44,12 +51,16 @@ class DirectoryReader
   end
 
   def inspect_line(line, file)
-    if file_is_chosen_types
-      comment_pattern = @comment_pattern_types[@current_file_type]['single']
-      line_has_commented_todo?(line, comment_pattern)
-    else
-      line_has_todo(line)
-    end
+    has_todo = if file_is_chosen_types
+                 comment_pattern = @comment_patterns[@current_file_type]['single']
+                 line_has_commented_todo?(line, comment_pattern)
+               else
+                 line_has_todo(line)
+               end
+
+    close_multi_comment(line)
+
+    has_todo
   end
 
   def todo_file_paths
