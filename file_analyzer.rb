@@ -46,7 +46,7 @@ class FileAnalyzer
   end
 
   def line_has_todo?(line)
-    line.include?('TODO')
+    line.upcase.include?('TODO')
   end
 
   def inspect_line(line)
