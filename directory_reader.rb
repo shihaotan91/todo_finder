@@ -7,8 +7,8 @@ class DirectoryReader
     path = "#{dir}/**/*"
     @directory = Dir[path]
     @comment_pattern_types = {
-      '.js' => '//',
-      '.rb' => '#'
+      '.js' => { 'single' => '//', 'multi' => ['/*', '*/'] },
+      '.rb' => { 'single' => '#' }
     }
   end
 
@@ -24,33 +24,42 @@ class DirectoryReader
   end
 
   def line_has_commented_todo?(line, comment_pattern)
-    line.start_with?(comment_pattern) && line.include?('TODO:')
+    if multi_line_comment?(line)
+      line_has_todo(line)
+    else
+      line.start_with?(comment_pattern) && line.include?('TODO:')
+    end
   end
 
-  # def multi_line_comment?(line)
-  #   line.start_with?('/*', '*/')
-  # end
+  def multi_line_comment?(line)
+    return false unless @current_file_type == '.js'
+    multi_line_pattern = @comment_pattern_types['.js']['multi']
+    @multi_line_comment = !@multi_line_comment if line.start_with?(*multi_line_pattern)
 
-  def line_has_todo(line, file)
+    @multi_line_comment
+  end
+
+  def line_has_todo(line)
+    line.include?('TODO:')
+  end
+
+  def inspect_line(line, file)
     if file_is_chosen_types
-      line_has_commented_todo?(line, @comment_pattern_types[@current_file_type])
+      comment_pattern = @comment_pattern_types[@current_file_type]['single']
+      line_has_commented_todo?(line, comment_pattern)
     else
-      line.include?('TODO:')
+      line_has_todo(line)
     end
-    # if is_multi_line_comment
-    #   line.include?('TODO:')
-    # else
-    #   line.start_with?('//') && line.include?('TODO:')
-    # end
   end
 
   def todo_file_paths
     file_paths.select do |file|
       @current_file_type = File.extname(file)
+      @multi_line_comment = false
+
       data_in_lines = File.readlines(file)
-      # multi_line_comment = false
       data_in_lines.find do |line|
-        line_has_todo(line, file)
+        inspect_line(line, file)
       end
     end
   end

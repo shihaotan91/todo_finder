@@ -1,6 +1,6 @@
 // HELLOWORLD
 
-var todo = "toDo"
+var todo = "TODO:"
 
 function sayToDo() {
   console.log(todo)

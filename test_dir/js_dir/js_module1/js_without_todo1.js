@@ -1,4 +1,6 @@
-// BYEBYEWORLD
+/*
+DONOT: This is a commented code but without TODO
+*/
 
 function taskList(first, second) {
   this.firstTask = "TODO: Task1"
