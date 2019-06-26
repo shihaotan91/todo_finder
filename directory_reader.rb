@@ -1,8 +1,7 @@
 require './file_analyzer'
-require "byebug"
 
 class DirectoryReader
-  attr_reader :directory
+  attr_accessor :directory
 
   def initialize(dir)
     path = "./#{dir}/**/*"
